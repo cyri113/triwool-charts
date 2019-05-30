@@ -1,0 +1,379 @@
+<html>
+    <head>
+        <script src="https://www.amcharts.com/lib/4/core.js"></script>
+        <script src="https://www.amcharts.com/lib/4/charts.js"></script>
+        <script src="https://www.amcharts.com/lib/4/plugins/forceDirected.js"></script>
+        <script src="https://www.amcharts.com/lib/4/themes/dark.js"></script>
+        <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+        <style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+                }
+
+                body { background-color: #30303d; color: #fff; }
+                #chartdiv {
+                width: 100%;
+                height:550px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="chartdiv"></div>
+    </body>
+    <script>
+        /**
+         * ---------------------------------------
+         * This demo was created using amCharts 4.
+         * 
+         * For more information visit:
+         * https://www.amcharts.com/
+         * 
+         * Documentation is available at:
+         * https://www.amcharts.com/docs/v4/
+         * ---------------------------------------
+         */
+
+        // Themes begin
+        am4core.useTheme(am4themes_dark);
+        am4core.useTheme(am4themes_animated);
+        // Themes end
+
+        var chart = am4core.create("chartdiv", am4plugins_forceDirected.ForceDirectedTree);
+
+        var networkSeries = chart.series.push(new am4plugins_forceDirected.ForceDirectedSeries())
+        networkSeries.dataFields.linkWith = "linkWith";
+        networkSeries.dataFields.name = "name";
+        networkSeries.dataFields.id = "name";
+        networkSeries.dataFields.value = "value";
+        networkSeries.dataFields.children = "children";
+
+        networkSeries.nodes.template.label.text = "{name}"
+        networkSeries.fontSize = 8;
+
+        var nodeTemplate = networkSeries.nodes.template;
+        nodeTemplate.tooltipText = "{name}";
+        nodeTemplate.fillOpacity = 1;
+        nodeTemplate.label.hideOversized = true;
+        nodeTemplate.label.truncate = true;
+
+        var linkTemplate = networkSeries.links.template;
+        linkTemplate.strokeWidth = 1;
+        var linkHoverState = linkTemplate.states.create("hover");
+        linkHoverState.properties.strokeOpacity = 1;
+        linkHoverState.properties.strokeWidth = 2;
+
+        nodeTemplate.events.on("over", function (event) {
+            var dataItem = event.target.dataItem;
+            dataItem.childLinks.each(function (link) {
+                link.isHover = true;
+            })
+        })
+
+        nodeTemplate.events.on("out", function (event) {
+            var dataItem = event.target.dataItem;
+            dataItem.childLinks.each(function (link) {
+                link.isHover = false;
+            })
+        })
+
+        networkSeries.data = [  
+        {  
+            "name":"Garment Producer",
+            "value":102,
+            "linkWith":[  
+                "Patterning",
+                "Supplier#1"
+            ],
+            "children":[  
+                {  
+                    "name":"Supplier#1",
+                    "value":14
+                },
+                {  
+                    "name":"Supplier#2",
+                    "value":1
+                },
+                {  
+                    "name":"Supplier#3",
+                    "value":1
+                },
+                {  
+                    "name":"Supplier#4",
+                    "value":2
+                },
+                {  
+                    "name":"Supplier#5",
+                    "value":5
+                },
+                {  
+                    "name":"Supplier#6",
+                    "value":1
+                },
+                {  
+                    "name":"Supplier#7",
+                    "value":1
+                },
+                {  
+                    "name":"Supplier#8",
+                    "value":1
+                },
+                {  
+                    "name":"Supplier#9",
+                    "value":2
+                },
+                {  
+                    "name":"Supplier#10",
+                    "value":1
+                }
+            ]
+        },
+        {  
+            "name":"Patterning",
+            "value":204,
+            "linkWith":[  
+                "Dyeing",
+                "Garment Producer",
+                "Supplier#1"        
+            ],
+            "children":[  
+                {  
+                    "name":"Supplier#1",
+                    "value":1
+                },
+                {  
+                    "name":"Supplier#2",
+                    "value":8
+                },
+                {  
+                    "name":"Supplier#3",
+                    "value":14
+                },
+                {  
+                    "name":"Folte",
+                    "value":2
+                },
+                {  
+                    "name":"Supplier#4",
+                    "value":1
+                },
+                {  
+                    "name":"Supplier#5",
+                    "value":5
+                },
+                {  
+                    "name":"Supplier#6",
+                    "value":9
+                },
+                {  
+                    "name":"Supplier#7",
+                    "value":3
+                },
+                {  
+                    "name":"Supplier#8",
+                    "value":16
+                },
+                {  
+                    "name":"Supplier#9",
+                    "value":4
+                },
+                {  
+                    "name":"Supplier#10",
+                    "value":1
+                }
+            ]
+        },
+        {  
+            "name":"Dyeing",
+            "value":216,
+            "linkWith":[  
+                "Patterning",
+                "Fabric Producer",
+                "Supplier#1",         
+            ],
+            "children":[  
+                {  
+                    "name":"ATB",
+                    "value":10
+                },
+                {  
+                    "name":"Supplier#1",
+                    "value":2
+                },
+                {  
+                    "name":"Supplier#2",
+                    "value":6
+                },
+                {  
+                    "name":"Supplier#3",
+                    "value":1
+                },
+                {  
+                    "name":"Supplier#4",
+                    "value":4
+                },
+                {  
+                    "name":"Supplier#5",
+                    "value":5
+                },
+                {  
+                    "name":"Supplier#6",
+                    "value":1
+                },
+                {  
+                    "name":"Elizabeth",
+                    "value":8
+                },
+                {  
+                    "name":"Supplier#7",
+                    "value":2
+                }
+            ]
+        },
+        {  
+            "name":"Fabric Producer",
+            "value":167,
+            "linkWith":[  
+                "Yarn Producer",
+                "Dyeing",
+                "Supplier#1"
+            ],
+            "children":[  
+                {  
+                    "name":"Supplier#1",
+                    "value":2
+                },
+                {  
+                    "name":"Supplier#2",
+                    "value":1
+                },
+                {  
+                    "name":"Etevimol",
+                    "value":12
+                },
+                {  
+                    "name":"Supplier#3",
+                    "value":6
+                },
+                {  
+                    "name":"Supplier#4",
+                    "value":1
+                },
+                {  
+                    "name":"Supplier#5",
+                    "value":5
+                },
+                {  
+                    "name":"Supplier#6",
+                    "value":1
+                },
+                {  
+                    "name":"Supplier#7",
+                    "value":2
+                },
+                {  
+                    "name":"Supplier#8",
+                    "value":5
+                }
+            ]
+        },
+        {  
+            "name":"Yarn Producer",
+            "value":158,
+            "linkWith":[  
+                "Raw Material",
+                "Fabric Producer",
+                "Supplier#1",        
+            ],
+            "children":[  
+                {  
+                    "name":"Tearfil",
+                    "value":5
+                },
+                {  
+                    "name":"Kingdom",
+                    "value":1
+                },
+                {  
+                    "name":"Orbital",
+                    "value":3
+                },
+                {  
+                    "name":"Hilaturas Ferro",
+                    "value":1
+                },
+                {  
+                    "name":"FDG",
+                    "value":2
+                },
+                {  
+                    "name":"Arifil",
+                    "value":2
+                }
+            ]
+        },
+        {  
+            "name":"Raw Material",
+            "value":88,
+            "linkWith":[  
+                "Yarn Producer",
+                "Supplier#1",        
+            ],
+            "children":[  
+                {  
+                    "name":"Supplier#1",
+                    "value":2
+                },
+                {  
+                    "name":"Supplier#2",
+                    "value":2
+                },
+                {  
+                    "name":"Supplier#3",
+                    "value":2
+                },
+                {  
+                    "name":"Supplier#4",
+                    "value":4
+                },
+                {  
+                    "name":"Supplier#4",
+                    "value":2
+                },
+                {  
+                    "name":"Supplier#5",
+                    "value":1
+                },
+                {  
+                    "name":"Supplier#6",
+                    "value":2
+                },
+                {  
+                    "name":"Supplier#7",
+                    "value":9
+                },
+                {  
+                    "name":"Supplier#8",
+                    "value":1
+                }
+            ]
+        }
+        ];
+
+                    // exportação
+        chart.exporting.menu = new am4core.ExportMenu();
+        chart.exporting.menu.align = "right";
+        chart.exporting.menu.verticalAlign = "top";
+
+        let options = chart.exporting.getFormatOptions("pdf");
+        options.addURL = false;
+        chart.exporting.setFormatOptions("pdf", options);
+
+            //reencaminhar para a 
+        nodeTemplate.events.on("hit", function(event) {
+            var dataItem = event.target.dataItem;
+           if (dataItem.name=='Dyeing'){
+                window.location.href="BubleChart.html"
+            }
+        });
+    </script>
+</html>
